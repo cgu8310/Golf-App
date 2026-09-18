@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useRounds } from '../context/RoundsContext';
 import { useProfile } from '../context/ProfileContext';
+import { cardShadow, greenCardShadow, greenButtonShadow } from '../styles';
 
 const GREEN = '#1a6b2e';
 const LIGHT_GREEN = '#e8f5e9';
@@ -74,11 +75,7 @@ const styles = StyleSheet.create({
     padding: 28,
     alignItems: 'center',
     marginBottom: 24,
-    shadowColor: GREEN,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 4,
+    ...greenCardShadow,
   },
   label: { color: '#a5d6a7', fontSize: 14, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
   index: { color: '#fff', fontSize: 72, fontWeight: '800', lineHeight: 80 },
@@ -94,11 +91,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    ...cardShadow,
   },
   rowLeft: { flex: 1 },
   courseName: { fontSize: 15, fontWeight: '600', color: '#222' },
@@ -110,11 +103,7 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: 'center',
     marginTop: 4,
-    shadowColor: GREEN,
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 3,
+    ...greenButtonShadow,
   },
   buttonText: { color: '#fff', fontSize: 16, fontWeight: '700' },
 });

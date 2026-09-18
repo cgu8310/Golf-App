@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useRounds } from '../context/RoundsContext';
+import { cardShadow, greenCardShadow } from '../styles';
 
 const GREEN = '#1a6b2e';
 
@@ -73,11 +74,7 @@ const styles = StyleSheet.create({
     padding: 28,
     alignItems: 'center',
     marginBottom: 16,
-    shadowColor: GREEN,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 4,
+    ...greenCardShadow,
   },
   heroLabel: { color: '#a5d6a7', fontSize: 14, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
   heroValue: { color: '#fff', fontSize: 64, fontWeight: '800', lineHeight: 72 },
@@ -87,11 +84,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 4,
     marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    ...cardShadow,
   },
   row: {
     flexDirection: 'row',

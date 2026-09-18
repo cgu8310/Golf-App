@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useRounds } from '../context/RoundsContext';
 import { getBestDifferentials } from '../hooks/useHandicap';
+import { cardShadow } from '../styles';
 
 const GREEN = '#1a6b2e';
 
@@ -122,11 +123,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    ...cardShadow,
   },
   statValue: { fontSize: 32, fontWeight: '800', color: GREEN },
   statLabel: { fontSize: 12, color: '#888', marginTop: 4, textAlign: 'center' },
@@ -138,11 +135,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 14,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    ...cardShadow,
   },
   yearNum: { fontSize: 24, fontWeight: '800', color: '#333' },
   yearLabel: { fontSize: 11, color: '#888', marginTop: 2, textAlign: 'center' },

@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { useProfile } from '../context/ProfileContext';
 import { useRounds } from '../context/RoundsContext';
+import { cardShadow, greenCardShadow } from '../styles';
 
 const GREEN = '#1a6b2e';
 
@@ -121,11 +122,7 @@ const styles = StyleSheet.create({
     padding: 24,
     alignItems: 'center',
     marginBottom: 20,
-    shadowColor: GREEN,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 4,
+    ...greenCardShadow,
   },
   cardName: { color: '#fff', fontSize: 26, fontWeight: '800', marginBottom: 4 },
   cardClub: { color: '#a5d6a7', fontSize: 14, marginBottom: 20 },
@@ -139,11 +136,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    ...cardShadow,
   },
   goalTitle: { fontSize: 13, fontWeight: '600', color: '#555', marginBottom: 10 },
   progressBar: { height: 10, backgroundColor: '#e8f5e9', borderRadius: 5, overflow: 'hidden' },

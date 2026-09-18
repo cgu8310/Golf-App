@@ -4,6 +4,7 @@ import {
   FlatList, Alert, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { useCourses } from '../context/CoursesContext';
+import { cardShadow } from '../styles';
 
 const GREEN = '#1a6b2e';
 
@@ -109,11 +110,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    ...cardShadow,
   },
   formTitle: { fontSize: 16, fontWeight: '700', color: '#333', marginBottom: 12 },
   row: { flexDirection: 'row' },
@@ -140,11 +137,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    ...cardShadow,
   },
   courseName: { fontSize: 15, fontWeight: '600', color: '#222' },
   courseMeta: { fontSize: 12, color: '#888', marginTop: 2 },

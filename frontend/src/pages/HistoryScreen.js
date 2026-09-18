@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { useRounds } from '../context/RoundsContext';
+import { cardShadow } from '../styles';
 
 const GREEN = '#1a6b2e';
 
@@ -79,11 +80,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 1,
+    ...cardShadow,
   },
   cardLeft: { flex: 1, marginRight: 12 },
   cardTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
