@@ -8,17 +8,6 @@ export default function HistoryScreen({ navigation }) {
   const { rounds, deleteRound, handicapIndex } = useRounds();
   const sorted = [...rounds].reverse();
 
-  function confirmDelete(id, courseName) {
-    Alert.alert(
-      'Delete Round',
-      `Remove round at "${courseName || 'Unnamed Course'}"?`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Delete', style: 'destructive', onPress: () => deleteRound(id) },
-      ]
-    );
-  }
-
   if (rounds.length === 0) {
     return (
       <View style={styles.empty}>
@@ -45,11 +34,20 @@ export default function HistoryScreen({ navigation }) {
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onLongPress={() => confirmDelete(item.id, item.courseName)}
+            onPress={() => navigation.navigate('RoundDetail', { round: item })}
+            onLongPress={() =>
+              Alert.alert('Delete Round', `Remove round at "${item.courseName || 'Unnamed Course'}"?`, [
+                { text: 'Cancel', style: 'cancel' },
+                { text: 'Delete', style: 'destructive', onPress: () => deleteRound(item.id) },
+              ])
+            }
             style={styles.card}
           >
             <View style={styles.cardLeft}>
-              <Text style={styles.courseName}>{item.courseName || 'Unnamed Course'}</Text>
+              <View style={styles.cardTitleRow}>
+                <Text style={styles.courseName}>{item.courseName || 'Unnamed Course'}</Text>
+                {item.holes === 9 && <Text style={styles.nineHole}>9H</Text>}
+              </View>
               <Text style={styles.meta}>{new Date(item.date).toLocaleDateString()}</Text>
               <Text style={styles.meta}>
                 Score {item.adjustedGrossScore} · Rating {item.courseRating} · Slope {item.slopeRating}
@@ -61,9 +59,7 @@ export default function HistoryScreen({ navigation }) {
           </TouchableOpacity>
         )}
         contentContainerStyle={{ paddingBottom: 20 }}
-        ListFooterComponent={
-          <Text style={styles.hint}>Long-press a round to delete it</Text>
-        }
+        ListFooterComponent={<Text style={styles.hint}>Tap for details · Long-press to delete</Text>}
       />
     </View>
   );
@@ -71,13 +67,7 @@ export default function HistoryScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f4f4f4', padding: 16 },
-  summary: {
-    backgroundColor: GREEN,
-    borderRadius: 12,
-    padding: 16,
-    alignItems: 'center',
-    marginBottom: 16,
-  },
+  summary: { backgroundColor: GREEN, borderRadius: 12, padding: 16, alignItems: 'center', marginBottom: 16 },
   summaryLabel: { color: '#a5d6a7', fontSize: 12, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
   summaryValue: { color: '#fff', fontSize: 40, fontWeight: '800' },
   summaryMeta: { color: '#a5d6a7', fontSize: 12, marginTop: 2 },
@@ -89,18 +79,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
   },
   cardLeft: { flex: 1, marginRight: 12 },
+  cardTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   courseName: { fontSize: 15, fontWeight: '600', color: '#222' },
+  nineHole: { fontSize: 11, fontWeight: '700', color: GREEN, backgroundColor: '#e8f5e9', paddingHorizontal: 5, paddingVertical: 1, borderRadius: 4 },
   meta: { fontSize: 12, color: '#888', marginTop: 2 },
-  diffBadge: {
-    backgroundColor: '#e8f5e9',
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    minWidth: 50,
-    alignItems: 'center',
-  },
+  diffBadge: { backgroundColor: '#e8f5e9', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, minWidth: 50, alignItems: 'center' },
   diffText: { fontSize: 16, fontWeight: '700', color: GREEN },
   hint: { textAlign: 'center', color: '#bbb', fontSize: 12, marginTop: 8 },
   empty: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#f4f4f4' },

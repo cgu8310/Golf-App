@@ -1,44 +1,34 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { calculateHandicapIndex, scoreDifferential } from '../hooks/useHandicap';
+import { API_URL } from '../config';
+import { calculateHandicapIndex } from '../hooks/useHandicap';
 
 const RoundsContext = createContext(null);
-
-const STORAGE_KEY = '@golf_rounds';
 
 export function RoundsProvider({ children }) {
   const [rounds, setRounds] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    AsyncStorage.getItem(STORAGE_KEY)
-      .then((json) => {
-        if (json) setRounds(JSON.parse(json));
-      })
+    fetch(`${API_URL}/api/rounds`)
+      .then((r) => r.json())
+      .then(setRounds)
+      .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
 
   async function addRound(round) {
-    const differential = scoreDifferential(
-      round.adjustedGrossScore,
-      round.courseRating,
-      round.slopeRating
-    );
-    const newRound = {
-      ...round,
-      id: Date.now().toString(),
-      differential: Math.round(differential * 10) / 10,
-      date: round.date || new Date().toISOString(),
-    };
-    const updated = [...rounds, newRound];
-    setRounds(updated);
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    const res = await fetch(`${API_URL}/api/rounds`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(round),
+    });
+    const newRound = await res.json();
+    setRounds((prev) => [...prev, newRound]);
   }
 
   async function deleteRound(id) {
-    const updated = rounds.filter((r) => r.id !== id);
-    setRounds(updated);
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    await fetch(`${API_URL}/api/rounds/${id}`, { method: 'DELETE' });
+    setRounds((prev) => prev.filter((r) => r.id !== id));
   }
 
   const handicapIndex = calculateHandicapIndex(rounds);

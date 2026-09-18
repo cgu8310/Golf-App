@@ -1,43 +1,59 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useRounds } from '../context/RoundsContext';
+import { useProfile } from '../context/ProfileContext';
 
 const GREEN = '#1a6b2e';
 const LIGHT_GREEN = '#e8f5e9';
 
 export default function HomeScreen({ navigation }) {
   const { rounds, handicapIndex } = useRounds();
+  const { profile } = useProfile();
   const recent = [...rounds].reverse().slice(0, 3);
+  const eligibleCount = rounds.filter((r) => !r.holes || r.holes === 18).length;
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 32 }}>
+      {profile.name ? (
+        <Text style={styles.greeting}>Welcome back, {profile.name} 👋</Text>
+      ) : null}
+
       <View style={styles.card}>
         <Text style={styles.label}>Handicap Index</Text>
         {handicapIndex !== null ? (
           <Text style={styles.index}>{handicapIndex.toFixed(1)}</Text>
         ) : (
           <Text style={styles.noIndex}>
-            {rounds.length < 3
-              ? `Add ${3 - rounds.length} more round${3 - rounds.length === 1 ? '' : 's'} to calculate`
+            {eligibleCount < 3
+              ? `Add ${3 - eligibleCount} more 18-hole round${3 - eligibleCount === 1 ? '' : 's'} to calculate`
               : '—'}
           </Text>
         )}
-        <Text style={styles.rounds}>{rounds.length} round{rounds.length !== 1 ? 's' : ''} recorded</Text>
+        <Text style={styles.rounds}>
+          {rounds.length} round{rounds.length !== 1 ? 's' : ''} recorded
+        </Text>
       </View>
 
       {recent.length > 0 && (
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Recent Rounds</Text>
           {recent.map((r) => (
-            <View key={r.id} style={styles.row}>
-              <View>
+            <TouchableOpacity
+              key={r.id}
+              style={styles.row}
+              onPress={() => navigation.navigate('RoundDetail', { round: r })}
+            >
+              <View style={styles.rowLeft}>
                 <Text style={styles.courseName}>{r.courseName || 'Unnamed Course'}</Text>
                 <Text style={styles.meta}>
                   {new Date(r.date).toLocaleDateString()} · Score {r.adjustedGrossScore}
+                  {r.holes === 9 ? ' · 9 holes' : ''}
                 </Text>
               </View>
-              <Text style={styles.diff}>{r.differential > 0 ? '+' : ''}{r.differential}</Text>
-            </View>
+              <Text style={styles.diff}>
+                {r.differential > 0 ? '+' : ''}{r.differential}
+              </Text>
+            </TouchableOpacity>
           ))}
         </View>
       )}
@@ -45,18 +61,24 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AddRound')}>
         <Text style={styles.buttonText}>+ Add Round</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f4f4f4', padding: 20 },
+  greeting: { fontSize: 15, color: '#555', marginBottom: 12, fontWeight: '500' },
   card: {
     backgroundColor: GREEN,
     borderRadius: 16,
     padding: 28,
     alignItems: 'center',
     marginBottom: 24,
+    shadowColor: GREEN,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 4,
   },
   label: { color: '#a5d6a7', fontSize: 14, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
   index: { color: '#fff', fontSize: 72, fontWeight: '800', lineHeight: 80 },
@@ -72,16 +94,27 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
   },
+  rowLeft: { flex: 1 },
   courseName: { fontSize: 15, fontWeight: '600', color: '#222' },
   meta: { fontSize: 12, color: '#888', marginTop: 2 },
-  diff: { fontSize: 18, fontWeight: '700', color: GREEN },
+  diff: { fontSize: 18, fontWeight: '700', color: GREEN, marginLeft: 12 },
   button: {
     backgroundColor: GREEN,
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
-    marginTop: 'auto',
+    marginTop: 4,
+    shadowColor: GREEN,
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 3,
   },
   buttonText: { color: '#fff', fontSize: 16, fontWeight: '700' },
 });
