@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Golf Handicap",
+    "slug": "golf-handicap-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#1a6b2e"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yourname.golfhandicap"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1a6b2e"
+      },
+      "package": "com.yourname.golfhandicap"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
