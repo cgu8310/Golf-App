@@ -12,10 +12,10 @@ const BLUE = '#4f46e5';
 const LIGHT_BLUE = '#e0e7ff';
 const MUTED_BLUE = '#c7d2fe';
 
-function netLabel(score, par) {
+function netLabel(score, par, t) {
   if (par == null) return '';
   const n = score - par;
-  if (n === 0) return 'Even';
+  if (n === 0) return t('even');
   return n > 0 ? `+${n}` : `${n}`;
 }
 
@@ -83,11 +83,34 @@ export default function HomeScreen({ navigation }) {
 
   function confirmResetScores() {
     Alert.alert(
-      'Reset scores?',
-      'This will delete all player scores for the current game. This cannot be undone.',
+      t('resetScoresTitle'),
+      t('resetScoresMsg'),
       [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Reset', style: 'destructive', onPress: resetScores },
+        { text: t('cancel'), style: 'cancel' },
+        { text: t('reset'), style: 'destructive', onPress: resetScores },
+      ]
+    );
+  }
+
+  function confirmDeleteGolfer(golfer) {
+    Alert.alert(
+      t('removePlayerTitle'),
+      `${golfer.name}${t('removePlayerMsg')}`,
+      [
+        { text: t('cancel'), style: 'cancel' },
+        {
+          text: t('delete'),
+          style: 'destructive',
+          onPress: () => {
+            deleteGolfer(golfer.id);
+            setScores((prev) => {
+              const updated = { ...prev };
+              delete updated[golfer.id];
+              AsyncStorage.setItem('@golf_scores', JSON.stringify(updated)).catch(console.error);
+              return updated;
+            });
+          },
+        },
       ]
     );
   }
@@ -98,19 +121,19 @@ export default function HomeScreen({ navigation }) {
       .filter((p) => p.score > 0);
 
     if (playerScores.length === 0) {
-      Alert.alert('No scores', 'Enter at least one player score before finishing.');
+      Alert.alert(t('noScoresTitle'), t('noScoresMsg'));
       return;
     }
 
     const winner = leader;
     const msg = winner
-      ? `Winner: ${winner.name} with ${winner.score} points!`
-      : 'Game finished!';
+      ? `${t('winnerPrefix')}${winner.name}${t('winnerMiddle')}${winner.score}${t('winnerSuffix')}`
+      : t('gameFinished');
 
-    Alert.alert('Finish Game', msg, [
-      { text: 'Cancel', style: 'cancel' },
+    Alert.alert(t('finishGame'), msg, [
+      { text: t('cancel'), style: 'cancel' },
       {
-        text: 'Save & Finish',
+        text: t('saveAndFinish'),
         onPress: () => {
           addRound({
             courseName: 'Putt Putt',
@@ -140,7 +163,7 @@ export default function HomeScreen({ navigation }) {
           </View>
         ) : (
           <View style={{ alignItems: 'center' }}>
-            <Text style={styles.label}>{t('bestScore')}</Text>
+            <Text style={styles.label}>{t('myBestScore')}</Text>
             {allTimeBest !== null ? (
               <Text style={styles.bigNum}>{allTimeBest}</Text>
             ) : (
@@ -161,7 +184,7 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.sectionTitle}>{t('players')}</Text>
           {Object.keys(scores).some((k) => scores[k]) && (
             <TouchableOpacity onPress={confirmResetScores}>
-              <Text style={styles.resetBtn}>Reset scores</Text>
+              <Text style={styles.resetBtn}>{t('resetScores')}</Text>
             </TouchableOpacity>
           )}
         </View>
@@ -180,7 +203,7 @@ export default function HomeScreen({ navigation }) {
               keyboardType="number-pad"
               maxLength={4}
             />
-            <TouchableOpacity onPress={() => deleteGolfer(g.id)} style={styles.deleteBtn} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
+            <TouchableOpacity onPress={() => confirmDeleteGolfer(g)} style={styles.deleteBtn} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
               <Ionicons name="trash-outline" size={18} color="#4f46e5" />
             </TouchableOpacity>
           </View>
@@ -210,13 +233,15 @@ export default function HomeScreen({ navigation }) {
       {golfers.length > 0 && (
         <TouchableOpacity style={styles.finishBtn} onPress={finishGame}>
           <Ionicons name="flag" size={18} color="#fff" style={{ marginRight: 8 }} />
-          <Text style={styles.finishBtnText}>Finish Game</Text>
+          <Text style={styles.finishBtnText}>{t('finishGame')}</Text>
         </TouchableOpacity>
       )}
 
       {recent.length > 0 && (
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>{t('recentRounds')}</Text>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>{t('recentRounds')}</Text>
+          </View>
           {recent.map((r) => {
             const myScore = getMyScore(r);
             return (
@@ -226,16 +251,16 @@ export default function HomeScreen({ navigation }) {
                 onPress={() => navigation.navigate('RoundDetail', { round: r })}
               >
                 <View style={styles.rowLeft}>
-                  <Text style={styles.courseName}>{r.courseName || 'Unknown Course'}</Text>
+                  <Text style={styles.courseName}>{r.courseName || t('unknownCourse')}</Text>
                   <Text style={styles.meta}>
                     {new Date(r.date).toLocaleDateString()}
-                    {r.scores?.length > 1 ? ` · ${r.scores.length} players` : ''}
+                    {r.scores?.length > 1 ? ` · ${r.scores.length} ${t('players')}` : ''}
                   </Text>
                 </View>
                 <View style={styles.scoreBadge}>
                   <Text style={styles.scoreNum}>{myScore}</Text>
                   {r.par ? (
-                    <Text style={styles.netLabel}>{netLabel(myScore, r.par)}</Text>
+                    <Text style={styles.netLabel}>{netLabel(myScore, r.par, t)}</Text>
                   ) : null}
                 </View>
               </TouchableOpacity>

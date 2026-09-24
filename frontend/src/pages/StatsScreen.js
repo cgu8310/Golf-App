@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { useRounds } from '../context/RoundsContext';
+import { useLanguage } from '../context/LanguageContext';
 import { getBestDifferentials } from '../hooks/useHandicap';
 import { cardShadow } from '../styles';
 
@@ -18,14 +19,15 @@ function StatCard({ label, value, sub }) {
 
 export default function StatsScreen() {
   const { rounds, handicapIndex } = useRounds();
+  const { t } = useLanguage();
   const eligible = rounds.filter((r) => !r.holes || r.holes === 18);
 
   if (rounds.length === 0) {
     return (
       <View style={styles.empty}>
         <Text style={styles.emptyIcon}>📊</Text>
-        <Text style={styles.emptyText}>No data yet</Text>
-        <Text style={styles.emptyHint}>Add rounds to see your stats</Text>
+        <Text style={styles.emptyText}>{t('noDataYet')}</Text>
+        <Text style={styles.emptyHint}>{t('addRoundsToSeeStats')}</Text>
       </View>
     );
   }
@@ -47,33 +49,33 @@ export default function StatsScreen() {
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 32 }}>
       <View style={styles.statsGrid}>
         <StatCard
-          label="Index"
+          label={t('handicap')}
           value={handicapIndex !== null ? handicapIndex.toFixed(1) : '—'}
-          sub={eligible.length < 3 ? `Need ${3 - eligible.length} more round${3 - eligible.length === 1 ? '' : 's'}` : null}
+          sub={eligible.length < 3 ? `${t('need')} ${3 - eligible.length} ${3 - eligible.length === 1 ? t('moreRoundSingular') : t('moreRoundsPlural')}` : null}
         />
-        <StatCard label="Total Rounds" value={rounds.length} />
-        <StatCard label="Best Differential" value={bestDiff !== null ? (bestDiff > 0 ? `+${bestDiff.toFixed(1)}` : bestDiff.toFixed(1)) : '—'} />
-        <StatCard label="Avg Differential" value={avgDiff !== null ? avgDiff.toFixed(1) : '—'} />
+        <StatCard label={t('totalRounds')} value={rounds.length} />
+        <StatCard label={t('bestDifferential')} value={bestDiff !== null ? (bestDiff > 0 ? `+${bestDiff.toFixed(1)}` : bestDiff.toFixed(1)) : '—'} />
+        <StatCard label={t('avgDifferential')} value={avgDiff !== null ? avgDiff.toFixed(1) : '—'} />
       </View>
 
       <View style={styles.yearRow}>
         <View style={styles.yearCard}>
           <Text style={styles.yearNum}>{roundsThisYear}</Text>
-          <Text style={styles.yearLabel}>Rounds {thisYear}</Text>
+          <Text style={styles.yearLabel}>{t('rounds')} {thisYear}</Text>
         </View>
         <View style={styles.yearCard}>
           <Text style={styles.yearNum}>{roundsLastYear}</Text>
-          <Text style={styles.yearLabel}>Rounds {thisYear - 1}</Text>
+          <Text style={styles.yearLabel}>{t('rounds')} {thisYear - 1}</Text>
         </View>
         <View style={styles.yearCard}>
           <Text style={styles.yearNum}>{worstDiff !== null ? (worstDiff > 0 ? `+${worstDiff.toFixed(1)}` : worstDiff.toFixed(1)) : '—'}</Text>
-          <Text style={styles.yearLabel}>Worst Diff</Text>
+          <Text style={styles.yearLabel}>{t('worstDiff')}</Text>
         </View>
       </View>
 
       {last20.length >= 2 && (
         <View style={styles.chartSection}>
-          <Text style={styles.sectionTitle}>Differential Trend (last {last20.length} rounds)</Text>
+          <Text style={styles.sectionTitle}>{t('differentialTrend')} ({t('last')} {last20.length} {t('roundsPlural')})</Text>
           <View style={styles.chart}>
             {last20.map((r, i) => {
               const isBest = bestIds.has(r.id);
@@ -87,7 +89,7 @@ export default function StatsScreen() {
                     ]}
                   />
                   {i === last20.length - 1 && (
-                    <Text style={styles.barLabel}>now</Text>
+                    <Text style={styles.barLabel}>{t('nowLabel')}</Text>
                   )}
                 </View>
               );
@@ -95,9 +97,9 @@ export default function StatsScreen() {
           </View>
           <View style={styles.legend}>
             <View style={[styles.legendDot, { backgroundColor: BLUE }]} />
-            <Text style={styles.legendText}>Used in calculation</Text>
+            <Text style={styles.legendText}>{t('usedInCalculation')}</Text>
             <View style={[styles.legendDot, { backgroundColor: '#a5b4fc', marginLeft: 12 }]} />
-            <Text style={styles.legendText}>Other rounds</Text>
+            <Text style={styles.legendText}>{t('otherRounds')}</Text>
           </View>
         </View>
       )}
@@ -105,7 +107,7 @@ export default function StatsScreen() {
       {rounds.filter((r) => r.holes === 9).length > 0 && (
         <View style={styles.noteBox}>
           <Text style={styles.noteText}>
-            ⚠️ {rounds.filter((r) => r.holes === 9).length} nine-hole round{rounds.filter((r) => r.holes === 9).length !== 1 ? 's' : ''} excluded from calculation.
+            ⚠️ {rounds.filter((r) => r.holes === 9).length} {rounds.filter((r) => r.holes === 9).length !== 1 ? t('nineHoleRoundsPlural') : t('nineHoleRoundSingular')} {t('excludedFromCalc')}
           </Text>
         </View>
       )}

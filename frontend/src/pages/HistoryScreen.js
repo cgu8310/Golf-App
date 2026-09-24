@@ -1,21 +1,23 @@
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { useRounds } from '../context/RoundsContext';
+import { useLanguage } from '../context/LanguageContext';
 import { cardShadow } from '../styles';
 
 const BLUE = '#4f46e5';
 
 export default function HistoryScreen({ navigation }) {
   const { rounds, deleteRound, handicapIndex } = useRounds();
+  const { t } = useLanguage();
   const sorted = [...rounds].reverse();
 
   if (rounds.length === 0) {
     return (
       <View style={styles.empty}>
         <Text style={styles.emptyIcon}>⛳</Text>
-        <Text style={styles.emptyText}>No rounds yet</Text>
+        <Text style={styles.emptyText}>{t('noRoundsYet')}</Text>
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('AddRound')}>
-          <Text style={styles.buttonText}>Add your first round</Text>
+          <Text style={styles.buttonText}>{t('addFirstRound')}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -25,9 +27,9 @@ export default function HistoryScreen({ navigation }) {
     <View style={styles.container}>
       {handicapIndex !== null && (
         <View style={styles.summary}>
-          <Text style={styles.summaryLabel}>Current Index</Text>
+          <Text style={styles.summaryLabel}>{t('currentIndex')}</Text>
           <Text style={styles.summaryValue}>{handicapIndex.toFixed(1)}</Text>
-          <Text style={styles.summaryMeta}>Based on {rounds.length} round{rounds.length !== 1 ? 's' : ''}</Text>
+          <Text style={styles.summaryMeta}>{t('basedOn')} {rounds.length} {rounds.length !== 1 ? t('roundsPlural') : t('roundSingular')}</Text>
         </View>
       )}
       <FlatList
@@ -37,21 +39,21 @@ export default function HistoryScreen({ navigation }) {
           <TouchableOpacity
             onPress={() => navigation.navigate('RoundDetail', { round: item })}
             onLongPress={() =>
-              Alert.alert('Delete Round', `Remove round at "${item.courseName || 'Unnamed Course'}"?`, [
-                { text: 'Cancel', style: 'cancel' },
-                { text: 'Delete', style: 'destructive', onPress: () => deleteRound(item.id) },
+              Alert.alert(t('deleteRound'), `${t('deleteRoundConfirm')}\n"${item.courseName || t('unnamedCourse')}"`, [
+                { text: t('cancel'), style: 'cancel' },
+                { text: t('delete'), style: 'destructive', onPress: () => deleteRound(item.id) },
               ])
             }
             style={styles.card}
           >
             <View style={styles.cardLeft}>
               <View style={styles.cardTitleRow}>
-                <Text style={styles.courseName}>{item.courseName || 'Unnamed Course'}</Text>
+                <Text style={styles.courseName}>{item.courseName || t('unnamedCourse')}</Text>
                 {item.holes === 9 && <Text style={styles.nineHole}>9H</Text>}
               </View>
               <Text style={styles.meta}>{new Date(item.date).toLocaleDateString()}</Text>
               <Text style={styles.meta}>
-                Score {item.adjustedGrossScore} · Rating {item.courseRating} · Slope {item.slopeRating}
+                {t('score')} {item.adjustedGrossScore} · {t('rating')} {item.courseRating} · {t('slope')} {item.slopeRating}
               </Text>
             </View>
             <View style={styles.diffBadge}>
@@ -60,7 +62,7 @@ export default function HistoryScreen({ navigation }) {
           </TouchableOpacity>
         )}
         contentContainerStyle={{ paddingBottom: 20 }}
-        ListFooterComponent={<Text style={styles.hint}>Tap for details · Long-press to delete</Text>}
+        ListFooterComponent={<Text style={styles.hint}>{t('tapForDetails')} · {t('longPressToDelete')}</Text>}
       />
     </View>
   );

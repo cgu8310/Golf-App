@@ -34,18 +34,23 @@ const TAB_ICONS = {
 
 const tabStyles = StyleSheet.create({
   bar: {
-    height: Platform.OS === 'ios' ? 84 : 68,
-    paddingTop: 8,
-    paddingBottom: Platform.OS === 'ios' ? 24 : 10,
+    position: 'absolute',
+    left: 20,
+    right: 20,
+    bottom: Platform.OS === 'ios' ? 30 : 18,
+    height: 66,
+    paddingHorizontal: 14,
+    justifyContent: 'center',
     backgroundColor: '#fff',
     borderTopWidth: 0,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 16,
-    elevation: 16,
+    borderRadius: 28,
+    shadowColor: '#4f46e5',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 20,
   },
-  item: { paddingTop: 4 },
+  item: { justifyContent: 'center', alignItems: 'center' },
   label: { fontSize: 11, fontWeight: '600', letterSpacing: 0.2, marginTop: 2 },
   iconWrap: { width: 52, height: 32, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
   iconWrapActive: { backgroundColor: '#e0e7ff' },
@@ -55,6 +60,7 @@ function HomeTabs() {
   const { t } = useLanguage();
   return (
     <Tab.Navigator
+      sceneContainerStyle={{ paddingBottom: Platform.OS === 'ios' ? 112 : 100 }}
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color }) => {
           const icon = TAB_ICONS[route.name];
@@ -68,6 +74,7 @@ function HomeTabs() {
             </View>
           );
         },
+        tabBarHideOnKeyboard: true,
         tabBarActiveTintColor: BLUE,
         tabBarInactiveTintColor: '#94a3b8',
         tabBarLabelStyle: tabStyles.label,
@@ -88,6 +95,21 @@ function HomeTabs() {
 
 const HEADER = { headerStyle: { backgroundColor: BLUE }, headerTintColor: '#fff', headerTitleStyle: { fontWeight: '700' } };
 
+function RootNavigator() {
+  const { t } = useLanguage();
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Main" component={HomeTabs} options={{ headerShown: false }} />
+        <Stack.Screen name="AddRound" component={AddRoundScreen} options={{ title: t('navAddRound'), ...HEADER }} />
+        <Stack.Screen name="RoundDetail" component={RoundDetailScreen} options={{ title: t('navRoundDetail'), ...HEADER }} />
+        <Stack.Screen name="Courses" component={CoursesScreen} options={{ title: t('navSavedCourses'), ...HEADER }} />
+      </Stack.Navigator>
+      <StatusBar style="light" />
+    </NavigationContainer>
+  );
+}
+
 export default function App() {
   return (
     <LanguageProvider>
@@ -95,15 +117,7 @@ export default function App() {
         <CoursesProvider>
           <GolfersProvider>
             <RoundsProvider>
-              <NavigationContainer>
-                <Stack.Navigator>
-                  <Stack.Screen name="Main" component={HomeTabs} options={{ headerShown: false }} />
-                  <Stack.Screen name="AddRound" component={AddRoundScreen} options={{ title: 'Add Round', ...HEADER }} />
-                  <Stack.Screen name="RoundDetail" component={RoundDetailScreen} options={{ title: 'Round Details', ...HEADER }} />
-                  <Stack.Screen name="Courses" component={CoursesScreen} options={{ title: 'Saved Courses', ...HEADER }} />
-                </Stack.Navigator>
-                <StatusBar style="light" />
-              </NavigationContainer>
+              <RootNavigator />
             </RoundsProvider>
           </GolfersProvider>
         </CoursesProvider>

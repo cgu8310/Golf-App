@@ -4,12 +4,14 @@ import {
   FlatList, Alert, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { useCourses } from '../context/CoursesContext';
+import { useLanguage } from '../context/LanguageContext';
 import { cardShadow } from '../styles';
 
 const BLUE = '#4f46e5';
 
 export default function CoursesScreen() {
   const { courses, addCourse, deleteCourse } = useCourses();
+  const { t } = useLanguage();
   const [name, setName] = useState('');
   const [rating, setRating] = useState('');
   const [slope, setSlope] = useState('');
@@ -18,9 +20,9 @@ export default function CoursesScreen() {
   function handleAdd() {
     const r = parseFloat(rating);
     const s = parseFloat(slope);
-    if (!name.trim()) { setError('Course name is required.'); return; }
-    if (isNaN(r)) { setError('Enter a valid Course Rating.'); return; }
-    if (isNaN(s) || s <= 0) { setError('Enter a valid Slope Rating.'); return; }
+    if (!name.trim()) { setError(t('errCourseNameRequired')); return; }
+    if (isNaN(r)) { setError(t('errValidCourseRating')); return; }
+    if (isNaN(s) || s <= 0) { setError(t('errValidSlopeRating')); return; }
     setError('');
     addCourse({ name: name.trim(), rating: r, slope: s });
     setName('');
@@ -29,9 +31,9 @@ export default function CoursesScreen() {
   }
 
   function confirmDelete(id, courseName) {
-    Alert.alert('Remove Course', `Remove "${courseName}" from saved courses?`, [
-      { text: 'Cancel', style: 'cancel' },
-      { text: 'Remove', style: 'destructive', onPress: () => deleteCourse(id) },
+    Alert.alert(t('removeCourse'), `${t('removeCourseMsg')}\n"${courseName}"`, [
+      { text: t('cancel'), style: 'cancel' },
+      { text: t('remove'), style: 'destructive', onPress: () => deleteCourse(id) },
     ]);
   }
 
@@ -44,22 +46,22 @@ export default function CoursesScreen() {
         ListHeaderComponent={
           <View>
             <View style={styles.form}>
-              <Text style={styles.formTitle}>Add a Course</Text>
-              <Field label="Course Name *" value={name} onChangeText={setName} placeholder="e.g. Augusta National" />
+              <Text style={styles.formTitle}>{t('addACourse')}</Text>
+              <Field label={`${t('courseName')} *`} value={name} onChangeText={setName} placeholder={`${t('eg')} Augusta National`} />
               <View style={styles.row}>
                 <View style={{ flex: 1, marginRight: 8 }}>
-                  <Field label="Rating *" value={rating} onChangeText={setRating} placeholder="72.4" keyboardType="decimal-pad" />
+                  <Field label={`${t('rating')} *`} value={rating} onChangeText={setRating} placeholder="72.4" keyboardType="decimal-pad" />
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Field label="Slope *" value={slope} onChangeText={setSlope} placeholder="131" keyboardType="numeric" />
+                  <Field label={`${t('slope')} *`} value={slope} onChangeText={setSlope} placeholder="131" keyboardType="numeric" />
                 </View>
               </View>
               {error ? <Text style={styles.error}>{error}</Text> : null}
               <TouchableOpacity style={styles.button} onPress={handleAdd}>
-                <Text style={styles.buttonText}>+ Add Course</Text>
+                <Text style={styles.buttonText}>+ {t('addCourse')}</Text>
               </TouchableOpacity>
             </View>
-            {courses.length > 0 && <Text style={styles.sectionTitle}>Saved Courses</Text>}
+            {courses.length > 0 && <Text style={styles.sectionTitle}>{t('savedCourses')}</Text>}
           </View>
         }
         renderItem={({ item }) => (
@@ -69,7 +71,7 @@ export default function CoursesScreen() {
           >
             <View>
               <Text style={styles.courseName}>{item.name}</Text>
-              <Text style={styles.courseMeta}>Rating {item.rating} · Slope {item.slope}</Text>
+              <Text style={styles.courseMeta}>{t('rating')} {item.rating} · {t('slope')} {item.slope}</Text>
             </View>
             <TouchableOpacity onPress={() => confirmDelete(item.id, item.name)} style={styles.deleteBtn}>
               <Text style={styles.deleteText}>✕</Text>
@@ -78,7 +80,7 @@ export default function CoursesScreen() {
         )}
         ListEmptyComponent={
           <View style={styles.empty}>
-            <Text style={styles.emptyText}>No saved courses yet</Text>
+            <Text style={styles.emptyText}>{t('noSavedCourses')}</Text>
           </View>
         }
         contentContainerStyle={{ paddingBottom: 40 }}

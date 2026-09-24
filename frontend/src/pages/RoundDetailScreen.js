@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useRounds } from '../context/RoundsContext';
+import { useLanguage } from '../context/LanguageContext';
 import { cardShadow, blueCardShadow } from '../styles';
 
 const BLUE = '#4f46e5';
@@ -17,6 +18,7 @@ function DetailRow({ label, value }) {
 export default function RoundDetailScreen({ route, navigation }) {
   const { round } = route.params;
   const { deleteRound, handicapIndex } = useRounds();
+  const { t } = useLanguage();
 
   const netScore =
     handicapIndex !== null && round.holes !== 9
@@ -24,10 +26,10 @@ export default function RoundDetailScreen({ route, navigation }) {
       : null;
 
   function handleDelete() {
-    Alert.alert('Delete Round', `Remove round at "${round.courseName || 'Unnamed Course'}"?`, [
-      { text: 'Cancel', style: 'cancel' },
+    Alert.alert(t('deleteRound'), `${t('deleteRoundConfirm')}\n"${round.courseName || t('unnamedCourse')}"`, [
+      { text: t('cancel'), style: 'cancel' },
       {
-        text: 'Delete',
+        text: t('delete'),
         style: 'destructive',
         onPress: () => {
           deleteRound(round.id);
@@ -40,27 +42,27 @@ export default function RoundDetailScreen({ route, navigation }) {
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
       <View style={styles.hero}>
-        <Text style={styles.heroLabel}>Differential</Text>
+        <Text style={styles.heroLabel}>{t('differential')}</Text>
         <Text style={styles.heroValue}>{round.differential > 0 ? '+' : ''}{round.differential}</Text>
-        {round.holes === 9 && <Text style={styles.heroNote}>9-hole round (excluded)</Text>}
+        {round.holes === 9 && <Text style={styles.heroNote}>{t('nineHoleExcluded')}</Text>}
       </View>
 
       <View style={styles.card}>
-        <DetailRow label="Course" value={round.courseName || 'Unnamed Course'} />
-        {round.tee ? <DetailRow label="Tee" value={round.tee} /> : null}
-        <DetailRow label="Holes" value={`${round.holes || 18}`} />
-        <DetailRow label="Date" value={new Date(round.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} />
+        <DetailRow label={t('course')} value={round.courseName || t('unnamedCourse')} />
+        {round.tee ? <DetailRow label={t('tee')} value={round.tee} /> : null}
+        <DetailRow label={t('holes')} value={`${round.holes || 18}`} />
+        <DetailRow label={t('date')} value={new Date(round.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })} />
       </View>
 
       <View style={styles.card}>
-        <DetailRow label="Adjusted Gross Score" value={round.adjustedGrossScore} />
-        <DetailRow label="Course Rating" value={round.courseRating} />
-        <DetailRow label="Slope Rating" value={round.slopeRating} />
-        {netScore !== null && <DetailRow label="Net Score" value={netScore > 0 ? `+${netScore}` : netScore} />}
+        <DetailRow label={t('adjustedGrossScore')} value={round.adjustedGrossScore} />
+        <DetailRow label={t('courseRating')} value={round.courseRating} />
+        <DetailRow label={t('slopeRating')} value={round.slopeRating} />
+        {netScore !== null && <DetailRow label={t('netScore')} value={netScore > 0 ? `+${netScore}` : netScore} />}
       </View>
 
       <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
-        <Text style={styles.deleteText}>🗑 Delete Round</Text>
+        <Text style={styles.deleteText}>🗑 {t('deleteRound')}</Text>
       </TouchableOpacity>
     </ScrollView>
   );

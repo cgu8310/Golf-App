@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { useRounds } from '../context/RoundsContext';
 import { useCourses } from '../context/CoursesContext';
+import { useLanguage } from '../context/LanguageContext';
 import { scoreDifferential } from '../hooks/useHandicap';
 
 const BLUE = '#4f46e5';
@@ -16,6 +17,7 @@ function todayString() {
 export default function AddRoundScreen({ navigation }) {
   const { addRound } = useRounds();
   const { courses } = useCourses();
+  const { t } = useLanguage();
 
   const [courseName, setCourseName] = useState('');
   const [tee, setTee] = useState('');
@@ -44,11 +46,11 @@ export default function AddRoundScreen({ navigation }) {
 
   function handleSave() {
     if (!adjustedGrossScore || !courseRating || !slopeRating) {
-      Alert.alert('Missing fields', 'Please fill in Score, Course Rating, and Slope Rating.');
+      Alert.alert(t('alertMissingFields'), t('alertMissingFieldsMsg'));
       return;
     }
     if (isNaN(score) || isNaN(rating) || isNaN(slope) || slope <= 0) {
-      Alert.alert('Invalid values', 'Please enter valid numbers.');
+      Alert.alert(t('alertInvalidValues'), t('alertInvalidValuesMsg'));
       return;
     }
     addRound({
@@ -69,15 +71,15 @@ export default function AddRoundScreen({ navigation }) {
 
         {courses.length > 0 && (
           <TouchableOpacity style={styles.pickerButton} onPress={() => setShowCoursePicker(true)}>
-            <Text style={styles.pickerButtonText}>📋 Choose Saved Course</Text>
+            <Text style={styles.pickerButtonText}>📋 {t('chooseSavedCourse')}</Text>
           </TouchableOpacity>
         )}
 
-        <Field label="Course Name (optional)" value={courseName} onChangeText={setCourseName} placeholder="e.g. Augusta National" />
-        <Field label="Tee (optional)" value={tee} onChangeText={setTee} placeholder="e.g. White, Blue, Red" />
+        <Field label={t('courseNameOptional')} value={courseName} onChangeText={setCourseName} placeholder={`${t('eg')} Augusta National`} />
+        <Field label={t('teeOptional')} value={tee} onChangeText={setTee} placeholder={`${t('eg')} ${t('teeExample')}`} />
 
         <View style={styles.field}>
-          <Text style={styles.label}>Holes</Text>
+          <Text style={styles.label}>{t('holes')}</Text>
           <View style={styles.toggle}>
             {[18, 9].map((h) => (
               <TouchableOpacity
@@ -86,7 +88,7 @@ export default function AddRoundScreen({ navigation }) {
                 onPress={() => setHoles(h)}
               >
                 <Text style={[styles.toggleText, holes === h && styles.toggleTextActive]}>
-                  {h} holes
+                  {h} {t('holes')}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -94,66 +96,66 @@ export default function AddRoundScreen({ navigation }) {
         </View>
 
         <Field
-          label="Adjusted Gross Score *"
+          label={`${t('adjustedGrossScore')} *`}
           value={adjustedGrossScore}
           onChangeText={setAdjustedGrossScore}
-          placeholder={holes === 9 ? 'e.g. 44' : 'e.g. 88'}
+          placeholder={holes === 9 ? `${t('eg')} 44` : `${t('eg')} 88`}
           keyboardType="numeric"
         />
         <Field
-          label="Course Rating *"
+          label={`${t('courseRating')} *`}
           value={courseRating}
           onChangeText={setCourseRating}
-          placeholder={holes === 9 ? 'e.g. 36.2' : 'e.g. 72.4'}
+          placeholder={holes === 9 ? `${t('eg')} 36.2` : `${t('eg')} 72.4`}
           keyboardType="decimal-pad"
         />
         <Field
-          label="Slope Rating *"
+          label={`${t('slopeRating')} *`}
           value={slopeRating}
           onChangeText={setSlopeRating}
-          placeholder="e.g. 131"
+          placeholder={`${t('eg')} 131`}
           keyboardType="numeric"
         />
-        <Field label="Date" value={date} onChangeText={setDate} placeholder="YYYY-MM-DD" />
+        <Field label={t('date')} value={date} onChangeText={setDate} placeholder="YYYY-MM-DD" />
 
         {previewDiff !== null && (
           <View style={styles.preview}>
-            <Text style={styles.previewLabel}>Score Differential</Text>
+            <Text style={styles.previewLabel}>{t('scoreDifferential')}</Text>
             <Text style={styles.previewValue}>{previewDiff.toFixed(1)}</Text>
-            {holes === 9 && <Text style={styles.previewNote}>9-hole round (excluded)</Text>}
+            {holes === 9 && <Text style={styles.previewNote}>{t('nineHoleExcluded')}</Text>}
           </View>
         )}
 
         <TouchableOpacity style={styles.button} onPress={handleSave}>
-          <Text style={styles.buttonText}>Save Round</Text>
+          <Text style={styles.buttonText}>{t('saveRound')}</Text>
         </TouchableOpacity>
 
         <View style={styles.hint}>
-          <Text style={styles.hintTitle}>Where to find these values</Text>
-          <Text style={styles.hintText}>Course Rating and Slope Rating are printed on your scorecard or available on the course website.</Text>
+          <Text style={styles.hintTitle}>{t('whereToFindValues')}</Text>
+          <Text style={styles.hintText}>{t('whereToFindValuesText')}</Text>
         </View>
 
         <TouchableOpacity style={styles.saveCourseLink} onPress={() => navigation.navigate('Courses')}>
-          <Text style={styles.saveCourseText}>⭐ Manage saved courses</Text>
+          <Text style={styles.saveCourseText}>⭐ {t('manageSavedCourses')}</Text>
         </TouchableOpacity>
       </ScrollView>
 
       <Modal visible={showCoursePicker} animationType="slide" transparent>
         <View style={styles.modalOverlay}>
           <View style={styles.modal}>
-            <Text style={styles.modalTitle}>Choose a Course</Text>
+            <Text style={styles.modalTitle}>{t('chooseCourse')}</Text>
             <FlatList
               data={courses}
               keyExtractor={(c) => c.id}
               renderItem={({ item }) => (
                 <TouchableOpacity style={styles.courseRow} onPress={() => selectCourse(item)}>
                   <Text style={styles.courseRowName}>{item.name}</Text>
-                  <Text style={styles.courseRowMeta}>Rating {item.rating} · Slope {item.slope}</Text>
+                  <Text style={styles.courseRowMeta}>{t('rating')} {item.rating} · {t('slope')} {item.slope}</Text>
                 </TouchableOpacity>
               )}
             />
             <TouchableOpacity style={styles.modalClose} onPress={() => setShowCoursePicker(false)}>
-              <Text style={styles.modalCloseText}>Cancel</Text>
+              <Text style={styles.modalCloseText}>{t('cancel')}</Text>
             </TouchableOpacity>
           </View>
         </View>
