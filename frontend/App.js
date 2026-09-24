@@ -1,71 +1,113 @@
 import React from 'react';
+import { View, Platform, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'expo-status-bar';
-import { Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 import { RoundsProvider } from './src/context/RoundsContext';
 import { CoursesProvider } from './src/context/CoursesContext';
 import { ProfileProvider } from './src/context/ProfileContext';
+import { GolfersProvider } from './src/context/GolfersContext';
+import { LanguageProvider, useLanguage } from './src/context/LanguageContext';
 
 import HomeScreen from './src/pages/HomeScreen';
 import AddRoundScreen from './src/pages/AddRoundScreen';
-import HistoryScreen from './src/pages/HistoryScreen';
 import StatsScreen from './src/pages/StatsScreen';
 import ProfileScreen from './src/pages/ProfileScreen';
 import RoundDetailScreen from './src/pages/RoundDetailScreen';
 import CoursesScreen from './src/pages/CoursesScreen';
+import SettingsScreen from './src/pages/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const GREEN = '#1a6b2e';
+const BLUE = '#0ea5e9';
 
-const TAB_ICONS = { Home: '🏌️', Stats: '📊', History: '📋', Profile: '👤' };
+const TAB_ICONS = {
+  Home:     { active: 'golf',      inactive: 'golf-outline' },
+  Stats:    { active: 'bar-chart', inactive: 'bar-chart-outline' },
+  Profile:  { active: 'person',    inactive: 'person-outline' },
+  Settings: { active: 'settings',  inactive: 'settings-outline' },
+};
 
-function TabIcon({ label, focused }) {
-  return <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.5 }}>{TAB_ICONS[label]}</Text>;
-}
+const tabStyles = StyleSheet.create({
+  bar: {
+    height: Platform.OS === 'ios' ? 84 : 68,
+    paddingTop: 8,
+    paddingBottom: Platform.OS === 'ios' ? 24 : 10,
+    backgroundColor: '#fff',
+    borderTopWidth: 0,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 16,
+    elevation: 16,
+  },
+  item: { paddingTop: 4 },
+  label: { fontSize: 11, fontWeight: '600', letterSpacing: 0.2, marginTop: 2 },
+  iconWrap: { width: 52, height: 32, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
+  iconWrapActive: { backgroundColor: '#e0f2fe' },
+});
 
 function HomeTabs() {
+  const { t } = useLanguage();
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused }) => <TabIcon label={route.name} focused={focused} />,
-        tabBarActiveTintColor: GREEN,
-        tabBarInactiveTintColor: '#888',
-        headerStyle: { backgroundColor: GREEN },
+        tabBarIcon: ({ focused, color }) => {
+          const icon = TAB_ICONS[route.name];
+          return (
+            <View style={[tabStyles.iconWrap, focused && tabStyles.iconWrapActive]}>
+              <Ionicons
+                name={focused ? icon.active : icon.inactive}
+                size={24}
+                color={color}
+              />
+            </View>
+          );
+        },
+        tabBarActiveTintColor: BLUE,
+        tabBarInactiveTintColor: '#94a3b8',
+        tabBarLabelStyle: tabStyles.label,
+        tabBarItemStyle: tabStyles.item,
+        tabBarStyle: tabStyles.bar,
+        headerStyle: { backgroundColor: BLUE },
         headerTintColor: '#fff',
         headerTitleStyle: { fontWeight: '700' },
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'Golf Handicap' }} />
-      <Tab.Screen name="Stats" component={StatsScreen} options={{ title: 'Statistics' }} />
-      <Tab.Screen name="History" component={HistoryScreen} options={{ title: 'Round History' }} />
-      <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: 'My Profile' }} />
+      <Tab.Screen name="Home" component={HomeScreen} options={{ title: t('tabHome') }} />
+      <Tab.Screen name="Stats" component={StatsScreen} options={{ title: t('tabStats') }} />
+      <Tab.Screen name="Profile" component={ProfileScreen} options={{ title: t('tabProfile') }} />
+      <Tab.Screen name="Settings" component={SettingsScreen} options={{ title: t('tabSettings') }} />
     </Tab.Navigator>
   );
 }
 
-const HEADER = { headerStyle: { backgroundColor: GREEN }, headerTintColor: '#fff', headerTitleStyle: { fontWeight: '700' } };
+const HEADER = { headerStyle: { backgroundColor: BLUE }, headerTintColor: '#fff', headerTitleStyle: { fontWeight: '700' } };
 
 export default function App() {
   return (
-    <ProfileProvider>
-      <CoursesProvider>
-        <RoundsProvider>
-          <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen name="Main" component={HomeTabs} options={{ headerShown: false }} />
-              <Stack.Screen name="AddRound" component={AddRoundScreen} options={{ title: 'Add Round', ...HEADER }} />
-              <Stack.Screen name="RoundDetail" component={RoundDetailScreen} options={{ title: 'Round Details', ...HEADER }} />
-              <Stack.Screen name="Courses" component={CoursesScreen} options={{ title: 'Saved Courses', ...HEADER }} />
-            </Stack.Navigator>
-            <StatusBar style="light" />
-          </NavigationContainer>
-        </RoundsProvider>
-      </CoursesProvider>
-    </ProfileProvider>
+    <LanguageProvider>
+      <ProfileProvider>
+        <CoursesProvider>
+          <GolfersProvider>
+            <RoundsProvider>
+              <NavigationContainer>
+                <Stack.Navigator>
+                  <Stack.Screen name="Main" component={HomeTabs} options={{ headerShown: false }} />
+                  <Stack.Screen name="AddRound" component={AddRoundScreen} options={{ title: 'Add Round', ...HEADER }} />
+                  <Stack.Screen name="RoundDetail" component={RoundDetailScreen} options={{ title: 'Round Details', ...HEADER }} />
+                  <Stack.Screen name="Courses" component={CoursesScreen} options={{ title: 'Saved Courses', ...HEADER }} />
+                </Stack.Navigator>
+                <StatusBar style="light" />
+              </NavigationContainer>
+            </RoundsProvider>
+          </GolfersProvider>
+        </CoursesProvider>
+      </ProfileProvider>
+    </LanguageProvider>
   );
 }

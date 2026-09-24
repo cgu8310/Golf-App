@@ -7,12 +7,12 @@ export const cardShadow = s(
   { shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 2, elevation: 1 }
 );
 
-export const greenCardShadow = s(
-  { boxShadow: '0 4px 8px rgba(26,107,46,0.3)' },
-  { shadowColor: '#1a6b2e', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8, elevation: 4 }
+export const blueCardShadow = s(
+  { boxShadow: '0 4px 8px rgba(14,165,233,0.3)' },
+  { shadowColor: '#0ea5e9', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8, elevation: 4 }
 );
 
-export const greenButtonShadow = s(
-  { boxShadow: '0 3px 6px rgba(26,107,46,0.3)' },
-  { shadowColor: '#1a6b2e', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.3, shadowRadius: 6, elevation: 3 }
+export const blueButtonShadow = s(
+  { boxShadow: '0 3px 6px rgba(14,165,233,0.3)' },
+  { shadowColor: '#0ea5e9', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.3, shadowRadius: 6, elevation: 3 }
 );

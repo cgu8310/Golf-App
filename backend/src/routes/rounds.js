@@ -3,33 +3,25 @@ const db = require('../db');
 
 const router = express.Router();
 
-function scoreDifferential(score, rating, slope) {
-  return ((score - rating) * 113) / slope;
-}
-
 router.get('/', (req, res) => {
   const { rounds } = db.read();
   res.json(rounds);
 });
 
 router.post('/', (req, res) => {
-  const { courseName, adjustedGrossScore, courseRating, slopeRating, date, holes, tee } = req.body;
+  const { courseName, par, holes, date, scores } = req.body;
 
-  if (adjustedGrossScore == null || courseRating == null || slopeRating == null || slopeRating <= 0) {
-    return res.status(400).json({ error: 'adjustedGrossScore, courseRating, and slopeRating are required.' });
+  if (!Array.isArray(scores) || scores.length === 0) {
+    return res.status(400).json({ error: 'scores array is required.' });
   }
 
-  const differential = Math.round(scoreDifferential(adjustedGrossScore, courseRating, slopeRating) * 10) / 10;
   const newRound = {
     id: Date.now().toString(),
     courseName: courseName || '',
-    tee: tee || '',
+    par: par ? Number(par) : null,
     holes: holes === 9 ? 9 : 18,
-    adjustedGrossScore,
-    courseRating,
-    slopeRating,
-    differential,
     date: date || new Date().toISOString(),
+    scores,
   };
 
   const data = db.read();

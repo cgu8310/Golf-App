@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react
 import { useRounds } from '../context/RoundsContext';
 import { cardShadow } from '../styles';
 
-const GREEN = '#1a6b2e';
+const BLUE = '#0ea5e9';
 
 export default function HistoryScreen({ navigation }) {
   const { rounds, deleteRound, handicapIndex } = useRounds();
@@ -68,10 +68,10 @@ export default function HistoryScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f4f4f4', padding: 16 },
-  summary: { backgroundColor: GREEN, borderRadius: 12, padding: 16, alignItems: 'center', marginBottom: 16 },
-  summaryLabel: { color: '#a5d6a7', fontSize: 12, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
+  summary: { backgroundColor: BLUE, borderRadius: 12, padding: 16, alignItems: 'center', marginBottom: 16 },
+  summaryLabel: { color: '#bae6fd', fontSize: 12, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
   summaryValue: { color: '#fff', fontSize: 40, fontWeight: '800' },
-  summaryMeta: { color: '#a5d6a7', fontSize: 12, marginTop: 2 },
+  summaryMeta: { color: '#bae6fd', fontSize: 12, marginTop: 2 },
   card: {
     backgroundColor: '#fff',
     borderRadius: 10,
@@ -85,14 +85,14 @@ const styles = StyleSheet.create({
   cardLeft: { flex: 1, marginRight: 12 },
   cardTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   courseName: { fontSize: 15, fontWeight: '600', color: '#222' },
-  nineHole: { fontSize: 11, fontWeight: '700', color: GREEN, backgroundColor: '#e8f5e9', paddingHorizontal: 5, paddingVertical: 1, borderRadius: 4 },
+  nineHole: { fontSize: 11, fontWeight: '700', color: BLUE, backgroundColor: '#e0f2fe', paddingHorizontal: 5, paddingVertical: 1, borderRadius: 4 },
   meta: { fontSize: 12, color: '#888', marginTop: 2 },
-  diffBadge: { backgroundColor: '#e8f5e9', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, minWidth: 50, alignItems: 'center' },
-  diffText: { fontSize: 16, fontWeight: '700', color: GREEN },
+  diffBadge: { backgroundColor: '#e0f2fe', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, minWidth: 50, alignItems: 'center' },
+  diffText: { fontSize: 16, fontWeight: '700', color: BLUE },
   hint: { textAlign: 'center', color: '#bbb', fontSize: 12, marginTop: 8 },
   empty: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#f4f4f4' },
   emptyIcon: { fontSize: 60, marginBottom: 12 },
   emptyText: { fontSize: 18, fontWeight: '600', color: '#555', marginBottom: 20 },
-  button: { backgroundColor: GREEN, borderRadius: 12, padding: 14, alignItems: 'center' },
+  button: { backgroundColor: BLUE, borderRadius: 12, padding: 14, alignItems: 'center' },
   buttonText: { color: '#fff', fontSize: 15, fontWeight: '700' },
 });

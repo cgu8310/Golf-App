@@ -1,40 +1,39 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { API_URL } from '../config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { calculateHandicapIndex } from '../hooks/useHandicap';
+
+const STORAGE_KEY = '@golf_rounds';
 
 const RoundsContext = createContext(null);
 
 export function RoundsProvider({ children }) {
   const [rounds, setRounds] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${API_URL}/api/rounds`)
-      .then((r) => r.json())
-      .then(setRounds)
-      .catch(console.error)
-      .finally(() => setLoading(false));
+    AsyncStorage.getItem(STORAGE_KEY)
+      .then((raw) => { if (raw) setRounds(JSON.parse(raw)); })
+      .catch(console.error);
   }, []);
 
+  async function persist(updated) {
+    setRounds(updated);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+  }
+
   async function addRound(round) {
-    const res = await fetch(`${API_URL}/api/rounds`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(round),
-    });
-    const newRound = await res.json();
-    setRounds((prev) => [...prev, newRound]);
+    const newRound = { ...round, id: Date.now().toString(), date: round.date || new Date().toISOString() };
+    await persist([...rounds, newRound]);
+    return newRound;
   }
 
   async function deleteRound(id) {
-    await fetch(`${API_URL}/api/rounds/${id}`, { method: 'DELETE' });
-    setRounds((prev) => prev.filter((r) => r.id !== id));
+    await persist(rounds.filter((r) => r.id !== id));
   }
 
   const handicapIndex = calculateHandicapIndex(rounds);
 
   return (
-    <RoundsContext.Provider value={{ rounds, addRound, deleteRound, handicapIndex, loading }}>
+    <RoundsContext.Provider value={{ rounds, addRound, deleteRound, loading: false, handicapIndex }}>
       {children}
     </RoundsContext.Provider>
   );

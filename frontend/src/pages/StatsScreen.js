@@ -4,7 +4,7 @@ import { useRounds } from '../context/RoundsContext';
 import { getBestDifferentials } from '../hooks/useHandicap';
 import { cardShadow } from '../styles';
 
-const GREEN = '#1a6b2e';
+const BLUE = '#0ea5e9';
 
 function StatCard({ label, value, sub }) {
   return (
@@ -83,7 +83,7 @@ export default function StatsScreen() {
                   <View
                     style={[
                       styles.bar,
-                      { height, backgroundColor: isBest ? GREEN : '#a5d6a7' },
+                      { height, backgroundColor: isBest ? BLUE : '#7dd3fc' },
                     ]}
                   />
                   {i === last20.length - 1 && (
@@ -94,9 +94,9 @@ export default function StatsScreen() {
             })}
           </View>
           <View style={styles.legend}>
-            <View style={[styles.legendDot, { backgroundColor: GREEN }]} />
+            <View style={[styles.legendDot, { backgroundColor: BLUE }]} />
             <Text style={styles.legendText}>Used in handicap calculation</Text>
-            <View style={[styles.legendDot, { backgroundColor: '#a5d6a7', marginLeft: 12 }]} />
+            <View style={[styles.legendDot, { backgroundColor: '#7dd3fc', marginLeft: 12 }]} />
             <Text style={styles.legendText}>Other rounds</Text>
           </View>
         </View>
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     ...cardShadow,
   },
-  statValue: { fontSize: 32, fontWeight: '800', color: GREEN },
+  statValue: { fontSize: 32, fontWeight: '800', color: BLUE },
   statLabel: { fontSize: 12, color: '#888', marginTop: 4, textAlign: 'center' },
   statSub: { fontSize: 11, color: '#aaa', marginTop: 2, textAlign: 'center' },
   yearRow: { flexDirection: 'row', gap: 12, marginBottom: 16 },

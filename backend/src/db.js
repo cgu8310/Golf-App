@@ -3,7 +3,7 @@ const path = require('path');
 
 const DB_PATH = path.join(__dirname, '..', 'golf.json');
 
-const DEFAULT = { rounds: [], profile: {}, courses: [] };
+const DEFAULT = { rounds: [], profile: {}, courses: [], golfers: [] };
 
 function read() {
   if (!fs.existsSync(DB_PATH)) return { ...DEFAULT };

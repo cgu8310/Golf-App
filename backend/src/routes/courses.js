@@ -9,11 +9,16 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  const { name, rating, slope } = req.body;
-  if (!name || rating == null || slope == null || slope <= 0) {
-    return res.status(400).json({ error: 'name, rating, and slope are required.' });
+  const { name, par, holes } = req.body;
+  if (!name || par == null) {
+    return res.status(400).json({ error: 'name and par are required.' });
   }
-  const course = { id: Date.now().toString(), name, rating, slope };
+  const course = {
+    id: Date.now().toString(),
+    name,
+    par: Number(par),
+    holes: holes === 9 ? 9 : 18,
+  };
   const data = db.read();
   data.courses.push(course);
   db.write(data);

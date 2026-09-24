@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Golf Handicap",
-    "slug": "golf-handicap-app",
+    "name": "Putt Putt",
+    "slug": "putt-putt-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#1a6b2e"
+      "backgroundColor": "#0ea5e9"
     },
     "ios": {
       "supportsTablet": true,
@@ -18,7 +18,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#1a6b2e"
+        "backgroundColor": "#0ea5e9"
       },
       "package": "com.yourname.golfhandicap"
     },

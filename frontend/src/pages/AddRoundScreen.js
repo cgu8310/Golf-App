@@ -7,7 +7,7 @@ import { useRounds } from '../context/RoundsContext';
 import { useCourses } from '../context/CoursesContext';
 import { scoreDifferential } from '../hooks/useHandicap';
 
-const GREEN = '#1a6b2e';
+const BLUE = '#0ea5e9';
 
 function todayString() {
   return new Date().toISOString().slice(0, 10);
@@ -186,10 +186,10 @@ const styles = StyleSheet.create({
     padding: 14,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: GREEN,
+    borderColor: BLUE,
     alignItems: 'center',
   },
-  pickerButtonText: { color: GREEN, fontWeight: '700', fontSize: 15 },
+  pickerButtonText: { color: BLUE, fontWeight: '700', fontSize: 15 },
   field: { marginBottom: 16 },
   label: { fontSize: 13, fontWeight: '600', color: '#555', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 },
   input: {
@@ -211,20 +211,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
   },
-  toggleBtnActive: { backgroundColor: GREEN, borderColor: GREEN },
+  toggleBtnActive: { backgroundColor: BLUE, borderColor: BLUE },
   toggleText: { fontWeight: '600', color: '#555', fontSize: 15 },
   toggleTextActive: { color: '#fff' },
-  preview: { backgroundColor: GREEN, borderRadius: 12, padding: 18, alignItems: 'center', marginBottom: 20 },
-  previewLabel: { color: '#a5d6a7', fontSize: 12, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
+  preview: { backgroundColor: BLUE, borderRadius: 12, padding: 18, alignItems: 'center', marginBottom: 20 },
+  previewLabel: { color: '#bae6fd', fontSize: 12, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
   previewValue: { color: '#fff', fontSize: 40, fontWeight: '800' },
-  previewNote: { color: '#a5d6a7', fontSize: 12, marginTop: 4 },
-  button: { backgroundColor: GREEN, borderRadius: 12, padding: 16, alignItems: 'center', marginBottom: 20 },
+  previewNote: { color: '#bae6fd', fontSize: 12, marginTop: 4 },
+  button: { backgroundColor: BLUE, borderRadius: 12, padding: 16, alignItems: 'center', marginBottom: 20 },
   buttonText: { color: '#fff', fontSize: 16, fontWeight: '700' },
-  hint: { backgroundColor: '#e8f5e9', borderRadius: 10, padding: 14, marginBottom: 12 },
-  hintTitle: { fontSize: 13, fontWeight: '700', color: GREEN, marginBottom: 4 },
+  hint: { backgroundColor: '#e0f2fe', borderRadius: 10, padding: 14, marginBottom: 12 },
+  hintTitle: { fontSize: 13, fontWeight: '700', color: BLUE, marginBottom: 4 },
   hintText: { fontSize: 13, color: '#555', lineHeight: 18 },
   saveCourseLink: { alignItems: 'center', paddingVertical: 8 },
-  saveCourseText: { color: GREEN, fontSize: 14, fontWeight: '600' },
+  saveCourseText: { color: BLUE, fontSize: 14, fontWeight: '600' },
   modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' },
   modal: { backgroundColor: '#fff', borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: 20, maxHeight: '70%' },
   modalTitle: { fontSize: 18, fontWeight: '700', color: '#222', marginBottom: 16 },

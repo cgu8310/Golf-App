@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { API_URL } from '../config';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const STORAGE_KEY = '@golf_profile';
 
 const ProfileContext = createContext(null);
 
@@ -7,20 +9,15 @@ export function ProfileProvider({ children }) {
   const [profile, setProfile] = useState({ name: '', homeClub: '', targetHandicap: null });
 
   useEffect(() => {
-    fetch(`${API_URL}/api/profile`)
-      .then((r) => r.json())
-      .then((data) => setProfile((prev) => ({ ...prev, ...data })))
+    AsyncStorage.getItem(STORAGE_KEY)
+      .then((raw) => { if (raw) setProfile(JSON.parse(raw)); })
       .catch(console.error);
   }, []);
 
   async function updateProfile(fields) {
-    const res = await fetch(`${API_URL}/api/profile`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(fields),
-    });
-    const updated = await res.json();
+    const updated = { ...profile, ...fields };
     setProfile(updated);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
   }
 
   return (

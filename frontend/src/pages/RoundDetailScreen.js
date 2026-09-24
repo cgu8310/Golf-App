@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useRounds } from '../context/RoundsContext';
-import { cardShadow, greenCardShadow } from '../styles';
+import { cardShadow, blueCardShadow } from '../styles';
 
-const GREEN = '#1a6b2e';
+const BLUE = '#0ea5e9';
 
 function DetailRow({ label, value }) {
   return (
@@ -69,16 +69,16 @@ export default function RoundDetailScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f4f4f4', padding: 16 },
   hero: {
-    backgroundColor: GREEN,
+    backgroundColor: BLUE,
     borderRadius: 16,
     padding: 28,
     alignItems: 'center',
     marginBottom: 16,
-    ...greenCardShadow,
+    ...blueCardShadow,
   },
-  heroLabel: { color: '#a5d6a7', fontSize: 14, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
+  heroLabel: { color: '#bae6fd', fontSize: 14, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
   heroValue: { color: '#fff', fontSize: 64, fontWeight: '800', lineHeight: 72 },
-  heroNote: { color: '#a5d6a7', fontSize: 12, marginTop: 4 },
+  heroNote: { color: '#bae6fd', fontSize: 12, marginTop: 4 },
   card: {
     backgroundColor: '#fff',
     borderRadius: 12,
