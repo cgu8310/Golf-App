@@ -4,7 +4,7 @@ import { useRounds } from '../context/RoundsContext';
 import { getBestDifferentials } from '../hooks/useHandicap';
 import { cardShadow } from '../styles';
 
-const BLUE = '#0ea5e9';
+const BLUE = '#4f46e5';
 
 function StatCard({ label, value, sub }) {
   return (
@@ -47,7 +47,7 @@ export default function StatsScreen() {
     <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 32 }}>
       <View style={styles.statsGrid}>
         <StatCard
-          label="Handicap Index"
+          label="Index"
           value={handicapIndex !== null ? handicapIndex.toFixed(1) : '—'}
           sub={eligible.length < 3 ? `Need ${3 - eligible.length} more round${3 - eligible.length === 1 ? '' : 's'}` : null}
         />
@@ -83,7 +83,7 @@ export default function StatsScreen() {
                   <View
                     style={[
                       styles.bar,
-                      { height, backgroundColor: isBest ? BLUE : '#7dd3fc' },
+                      { height, backgroundColor: isBest ? BLUE : '#a5b4fc' },
                     ]}
                   />
                   {i === last20.length - 1 && (
@@ -95,8 +95,8 @@ export default function StatsScreen() {
           </View>
           <View style={styles.legend}>
             <View style={[styles.legendDot, { backgroundColor: BLUE }]} />
-            <Text style={styles.legendText}>Used in handicap calculation</Text>
-            <View style={[styles.legendDot, { backgroundColor: '#7dd3fc', marginLeft: 12 }]} />
+            <Text style={styles.legendText}>Used in calculation</Text>
+            <View style={[styles.legendDot, { backgroundColor: '#a5b4fc', marginLeft: 12 }]} />
             <Text style={styles.legendText}>Other rounds</Text>
           </View>
         </View>
@@ -105,7 +105,7 @@ export default function StatsScreen() {
       {rounds.filter((r) => r.holes === 9).length > 0 && (
         <View style={styles.noteBox}>
           <Text style={styles.noteText}>
-            ⚠️ {rounds.filter((r) => r.holes === 9).length} nine-hole round{rounds.filter((r) => r.holes === 9).length !== 1 ? 's' : ''} excluded from handicap calculation.
+            ⚠️ {rounds.filter((r) => r.holes === 9).length} nine-hole round{rounds.filter((r) => r.holes === 9).length !== 1 ? 's' : ''} excluded from calculation.
           </Text>
         </View>
       )}
@@ -148,8 +148,8 @@ const styles = StyleSheet.create({
   legend: { flexDirection: 'row', alignItems: 'center', marginTop: 12 },
   legendDot: { width: 10, height: 10, borderRadius: 5 },
   legendText: { fontSize: 11, color: '#888', marginLeft: 4 },
-  noteBox: { backgroundColor: '#fff8e1', borderRadius: 10, padding: 12, marginBottom: 12 },
-  noteText: { fontSize: 13, color: '#795548' },
+  noteBox: { backgroundColor: '#eef2ff', borderRadius: 10, padding: 12, marginBottom: 12 },
+  noteText: { fontSize: 13, color: '#4f46e5' },
   empty: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#f4f4f4' },
   emptyIcon: { fontSize: 60, marginBottom: 12 },
   emptyText: { fontSize: 18, fontWeight: '600', color: '#555' },

@@ -8,9 +8,9 @@ import { useLanguage } from '../context/LanguageContext';
 import { getBestScore, getAvgScore, getAvgVsPar, getMyScore } from '../hooks/useStats';
 import { cardShadow, blueCardShadow } from '../styles';
 
-const BLUE = '#0ea5e9';
-const LIGHT_BLUE = '#e0f2fe';
-const MUTED_BLUE = '#bae6fd';
+const BLUE = '#4f46e5';
+const LIGHT_BLUE = '#e0e7ff';
+const MUTED_BLUE = '#c7d2fe';
 
 function netLabel(score, par) {
   if (par == null) return '';
@@ -81,6 +81,17 @@ export default function HomeScreen({ navigation }) {
     AsyncStorage.removeItem('@golf_scores').catch(console.error);
   }
 
+  function confirmResetScores() {
+    Alert.alert(
+      'Reset scores?',
+      'This will delete all player scores for the current game. This cannot be undone.',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { text: 'Reset', style: 'destructive', onPress: resetScores },
+      ]
+    );
+  }
+
   function finishGame() {
     const playerScores = golfers
       .map((g) => ({ name: g.name, score: parseInt(scores[g.id] || '0', 10) }))
@@ -124,9 +135,8 @@ export default function HomeScreen({ navigation }) {
         {leader ? (
           <View style={{ alignItems: 'center' }}>
             <Text style={styles.label}>{t('currentlyLeading')}</Text>
-            <Text style={styles.leaderName}>{leader.name}</Text>
             <Text style={styles.bigNum}>{leader.score}</Text>
-            <Text style={styles.sub}>{t('strokes')}</Text>
+            <Text style={styles.leaderName}>{leader.name}</Text>
           </View>
         ) : (
           <View style={{ alignItems: 'center' }}>
@@ -150,7 +160,7 @@ export default function HomeScreen({ navigation }) {
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>{t('players')}</Text>
           {Object.keys(scores).some((k) => scores[k]) && (
-            <TouchableOpacity onPress={resetScores}>
+            <TouchableOpacity onPress={confirmResetScores}>
               <Text style={styles.resetBtn}>Reset scores</Text>
             </TouchableOpacity>
           )}
@@ -171,7 +181,7 @@ export default function HomeScreen({ navigation }) {
               maxLength={4}
             />
             <TouchableOpacity onPress={() => deleteGolfer(g.id)} style={styles.deleteBtn} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-              <Ionicons name="trash-outline" size={18} color="#f87171" />
+              <Ionicons name="trash-outline" size={18} color="#4f46e5" />
             </TouchableOpacity>
           </View>
           );
@@ -251,12 +261,12 @@ const styles = StyleSheet.create({
   label: { color: MUTED_BLUE, fontSize: 14, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
   bigNum: { color: '#fff', fontSize: 72, fontWeight: '800', lineHeight: 80 },
   leaderName: { color: '#fff', fontSize: 18, fontWeight: '700', marginTop: 4 },
-  noData: { color: '#bae6fd', fontSize: 15, marginTop: 8, textAlign: 'center' },
+  noData: { color: '#c7d2fe', fontSize: 15, marginTop: 8, textAlign: 'center' },
   sub: { color: MUTED_BLUE, fontSize: 13, marginTop: 4 },
   section: { marginBottom: 20 },
   sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 },
   sectionTitle: { fontSize: 16, fontWeight: '700', color: '#333' },
-  resetBtn: { fontSize: 13, color: '#f87171', fontWeight: '600' },
+  resetBtn: { fontSize: 13, color: '#4f46e5', fontWeight: '600' },
   golferRow: {
     backgroundColor: '#fff',
     borderRadius: 10,
@@ -277,10 +287,10 @@ const styles = StyleSheet.create({
   golferNameLeader: { color: BLUE, fontWeight: '800' },
   scoreInput: {
     width: 56,
-    backgroundColor: '#f4f8fb',
+    backgroundColor: '#eef2ff',
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: '#d0e8f5',
+    borderColor: '#e0e7ff',
     paddingVertical: 6,
     paddingHorizontal: 8,
     fontSize: 16,
@@ -315,7 +325,7 @@ const styles = StyleSheet.create({
   addBtnDisabled: { backgroundColor: LIGHT_BLUE },
   addBtnText: { color: '#fff', fontWeight: '700', fontSize: 15 },
   finishBtn: {
-    backgroundColor: '#10b981',
+    backgroundColor: '#4f46e5',
     borderRadius: 12,
     paddingVertical: 14,
     flexDirection: 'row',

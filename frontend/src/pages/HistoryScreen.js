@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react
 import { useRounds } from '../context/RoundsContext';
 import { cardShadow } from '../styles';
 
-const BLUE = '#0ea5e9';
+const BLUE = '#4f46e5';
 
 export default function HistoryScreen({ navigation }) {
   const { rounds, deleteRound, handicapIndex } = useRounds();
@@ -25,7 +25,7 @@ export default function HistoryScreen({ navigation }) {
     <View style={styles.container}>
       {handicapIndex !== null && (
         <View style={styles.summary}>
-          <Text style={styles.summaryLabel}>Current Handicap Index</Text>
+          <Text style={styles.summaryLabel}>Current Index</Text>
           <Text style={styles.summaryValue}>{handicapIndex.toFixed(1)}</Text>
           <Text style={styles.summaryMeta}>Based on {rounds.length} round{rounds.length !== 1 ? 's' : ''}</Text>
         </View>
@@ -69,9 +69,9 @@ export default function HistoryScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#f4f4f4', padding: 16 },
   summary: { backgroundColor: BLUE, borderRadius: 12, padding: 16, alignItems: 'center', marginBottom: 16 },
-  summaryLabel: { color: '#bae6fd', fontSize: 12, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
+  summaryLabel: { color: '#c7d2fe', fontSize: 12, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
   summaryValue: { color: '#fff', fontSize: 40, fontWeight: '800' },
-  summaryMeta: { color: '#bae6fd', fontSize: 12, marginTop: 2 },
+  summaryMeta: { color: '#c7d2fe', fontSize: 12, marginTop: 2 },
   card: {
     backgroundColor: '#fff',
     borderRadius: 10,
@@ -85,9 +85,9 @@ const styles = StyleSheet.create({
   cardLeft: { flex: 1, marginRight: 12 },
   cardTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   courseName: { fontSize: 15, fontWeight: '600', color: '#222' },
-  nineHole: { fontSize: 11, fontWeight: '700', color: BLUE, backgroundColor: '#e0f2fe', paddingHorizontal: 5, paddingVertical: 1, borderRadius: 4 },
+  nineHole: { fontSize: 11, fontWeight: '700', color: BLUE, backgroundColor: '#e0e7ff', paddingHorizontal: 5, paddingVertical: 1, borderRadius: 4 },
   meta: { fontSize: 12, color: '#888', marginTop: 2 },
-  diffBadge: { backgroundColor: '#e0f2fe', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, minWidth: 50, alignItems: 'center' },
+  diffBadge: { backgroundColor: '#e0e7ff', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 6, minWidth: 50, alignItems: 'center' },
   diffText: { fontSize: 16, fontWeight: '700', color: BLUE },
   hint: { textAlign: 'center', color: '#bbb', fontSize: 12, marginTop: 8 },
   empty: { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#f4f4f4' },

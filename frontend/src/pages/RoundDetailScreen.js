@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'rea
 import { useRounds } from '../context/RoundsContext';
 import { cardShadow, blueCardShadow } from '../styles';
 
-const BLUE = '#0ea5e9';
+const BLUE = '#4f46e5';
 
 function DetailRow({ label, value }) {
   return (
@@ -42,7 +42,7 @@ export default function RoundDetailScreen({ route, navigation }) {
       <View style={styles.hero}>
         <Text style={styles.heroLabel}>Differential</Text>
         <Text style={styles.heroValue}>{round.differential > 0 ? '+' : ''}{round.differential}</Text>
-        {round.holes === 9 && <Text style={styles.heroNote}>9-hole round (excluded from handicap)</Text>}
+        {round.holes === 9 && <Text style={styles.heroNote}>9-hole round (excluded)</Text>}
       </View>
 
       <View style={styles.card}>
@@ -76,9 +76,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     ...blueCardShadow,
   },
-  heroLabel: { color: '#bae6fd', fontSize: 14, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
+  heroLabel: { color: '#c7d2fe', fontSize: 14, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
   heroValue: { color: '#fff', fontSize: 64, fontWeight: '800', lineHeight: 72 },
-  heroNote: { color: '#bae6fd', fontSize: 12, marginTop: 4 },
+  heroNote: { color: '#c7d2fe', fontSize: 12, marginTop: 4 },
   card: {
     backgroundColor: '#fff',
     borderRadius: 12,
@@ -98,11 +98,11 @@ const styles = StyleSheet.create({
   rowValue: { fontSize: 14, color: '#222', fontWeight: '600' },
   deleteButton: {
     borderWidth: 1,
-    borderColor: '#ff4444',
+    borderColor: '#4f46e5',
     borderRadius: 12,
     padding: 16,
     alignItems: 'center',
     marginTop: 8,
   },
-  deleteText: { color: '#ff4444', fontWeight: '700', fontSize: 15 },
+  deleteText: { color: '#4f46e5', fontWeight: '700', fontSize: 15 },
 });

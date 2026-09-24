@@ -23,7 +23,7 @@ import SettingsScreen from './src/pages/SettingsScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const BLUE = '#0ea5e9';
+const BLUE = '#4f46e5';
 
 const TAB_ICONS = {
   Home:     { active: 'golf',      inactive: 'golf-outline' },
@@ -48,7 +48,7 @@ const tabStyles = StyleSheet.create({
   item: { paddingTop: 4 },
   label: { fontSize: 11, fontWeight: '600', letterSpacing: 0.2, marginTop: 2 },
   iconWrap: { width: 52, height: 32, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
-  iconWrapActive: { backgroundColor: '#e0f2fe' },
+  iconWrapActive: { backgroundColor: '#e0e7ff' },
 });
 
 function HomeTabs() {

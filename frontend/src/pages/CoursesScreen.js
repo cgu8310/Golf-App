@@ -6,7 +6,7 @@ import {
 import { useCourses } from '../context/CoursesContext';
 import { cardShadow } from '../styles';
 
-const BLUE = '#0ea5e9';
+const BLUE = '#4f46e5';
 
 export default function CoursesScreen() {
   const { courses, addCourse, deleteCourse } = useCourses();
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e0e0e0',
   },
-  error: { color: '#d32f2f', fontSize: 13, marginBottom: 8 },
+  error: { color: '#4f46e5', fontSize: 13, marginBottom: 8 },
   button: { backgroundColor: BLUE, borderRadius: 10, padding: 14, alignItems: 'center' },
   buttonText: { color: '#fff', fontWeight: '700', fontSize: 15 },
   sectionTitle: { fontSize: 16, fontWeight: '700', color: '#333', marginBottom: 10 },

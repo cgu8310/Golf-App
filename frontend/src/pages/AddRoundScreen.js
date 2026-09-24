@@ -7,7 +7,7 @@ import { useRounds } from '../context/RoundsContext';
 import { useCourses } from '../context/CoursesContext';
 import { scoreDifferential } from '../hooks/useHandicap';
 
-const BLUE = '#0ea5e9';
+const BLUE = '#4f46e5';
 
 function todayString() {
   return new Date().toISOString().slice(0, 10);
@@ -120,7 +120,7 @@ export default function AddRoundScreen({ navigation }) {
           <View style={styles.preview}>
             <Text style={styles.previewLabel}>Score Differential</Text>
             <Text style={styles.previewValue}>{previewDiff.toFixed(1)}</Text>
-            {holes === 9 && <Text style={styles.previewNote}>9-hole round (excluded from handicap)</Text>}
+            {holes === 9 && <Text style={styles.previewNote}>9-hole round (excluded)</Text>}
           </View>
         )}
 
@@ -215,12 +215,12 @@ const styles = StyleSheet.create({
   toggleText: { fontWeight: '600', color: '#555', fontSize: 15 },
   toggleTextActive: { color: '#fff' },
   preview: { backgroundColor: BLUE, borderRadius: 12, padding: 18, alignItems: 'center', marginBottom: 20 },
-  previewLabel: { color: '#bae6fd', fontSize: 12, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
+  previewLabel: { color: '#c7d2fe', fontSize: 12, fontWeight: '600', textTransform: 'uppercase', letterSpacing: 1 },
   previewValue: { color: '#fff', fontSize: 40, fontWeight: '800' },
-  previewNote: { color: '#bae6fd', fontSize: 12, marginTop: 4 },
+  previewNote: { color: '#c7d2fe', fontSize: 12, marginTop: 4 },
   button: { backgroundColor: BLUE, borderRadius: 12, padding: 16, alignItems: 'center', marginBottom: 20 },
   buttonText: { color: '#fff', fontSize: 16, fontWeight: '700' },
-  hint: { backgroundColor: '#e0f2fe', borderRadius: 10, padding: 14, marginBottom: 12 },
+  hint: { backgroundColor: '#e0e7ff', borderRadius: 10, padding: 14, marginBottom: 12 },
   hintTitle: { fontSize: 13, fontWeight: '700', color: BLUE, marginBottom: 4 },
   hintText: { fontSize: 13, color: '#555', lineHeight: 18 },
   saveCourseLink: { alignItems: 'center', paddingVertical: 8 },

@@ -9,10 +9,10 @@ export const cardShadow = s(
 
 export const blueCardShadow = s(
   { boxShadow: '0 4px 8px rgba(14,165,233,0.3)' },
-  { shadowColor: '#0ea5e9', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8, elevation: 4 }
+  { shadowColor: '#4f46e5', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8, elevation: 4 }
 );
 
 export const blueButtonShadow = s(
   { boxShadow: '0 3px 6px rgba(14,165,233,0.3)' },
-  { shadowColor: '#0ea5e9', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.3, shadowRadius: 6, elevation: 3 }
+  { shadowColor: '#4f46e5', shadowOffset: { width: 0, height: 3 }, shadowOpacity: 0.3, shadowRadius: 6, elevation: 3 }
 );

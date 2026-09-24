@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useLanguage } from '../context/LanguageContext';
 import { cardShadow } from '../styles';
 
-const BLUE = '#0ea5e9';
+const BLUE = '#4f46e5';
 
 const LANGUAGES = [
   { code: 'en', label: 'English', flag: '🇺🇸' },
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#f0f0f0',
   },
   rowActive: {
-    backgroundColor: '#e0f2fe',
+    backgroundColor: '#e0e7ff',
     borderRadius: 10,
     paddingHorizontal: 10,
     borderBottomWidth: 0,

@@ -8,7 +8,7 @@ import { useRounds } from '../context/RoundsContext';
 import { useLanguage } from '../context/LanguageContext';
 import { cardShadow, blueCardShadow } from '../styles';
 
-const BLUE = '#0ea5e9';
+const BLUE = '#4f46e5';
 
 export default function ProfileScreen() {
   const { profile, updateProfile } = useProfile();
@@ -159,11 +159,11 @@ const styles = StyleSheet.create({
     ...blueCardShadow,
   },
   cardName: { color: '#fff', fontSize: 26, fontWeight: '800', marginBottom: 4 },
-  cardClub: { color: '#bae6fd', fontSize: 14, marginBottom: 20 },
+  cardClub: { color: '#c7d2fe', fontSize: 14, marginBottom: 20 },
   cardStats: { flexDirection: 'row', alignItems: 'center' },
   cardStat: { alignItems: 'center', paddingHorizontal: 20 },
   cardStatNum: { color: '#fff', fontSize: 24, fontWeight: '800' },
-  cardStatLabel: { color: '#bae6fd', fontSize: 11, marginTop: 2 },
+  cardStatLabel: { color: '#c7d2fe', fontSize: 11, marginTop: 2 },
   cardDivider: { width: 1, height: 32, backgroundColor: 'rgba(255,255,255,0.3)' },
   goalSection: {
     backgroundColor: '#fff',
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     ...cardShadow,
   },
   goalTitle: { fontSize: 13, fontWeight: '600', color: '#555', marginBottom: 10 },
-  progressBar: { height: 10, backgroundColor: '#e0f2fe', borderRadius: 5, overflow: 'hidden' },
+  progressBar: { height: 10, backgroundColor: '#e0e7ff', borderRadius: 5, overflow: 'hidden' },
   progressFill: { height: '100%', backgroundColor: BLUE, borderRadius: 5 },
   goalHint: { fontSize: 12, color: '#888', marginTop: 6 },
   section: {
